@@ -354,7 +354,6 @@
   </div>
 
   <script>
-    // 문법 오류(쉼표 누락)가 완벽하게 수정된 150개 단어 데이터입니다.
     const RAW_WORDS = [
       ["가람", "nature", 1, "강(江)을 예스럽고 아름답게 이르는 우리 고유어예요. 아주 넓게 흐르는 물줄기를 뜻해요.", "우리 가족은 자전거를 타고 시원한 가람을 따라 쌩쌩 달렸다.", "한자어 '강' 대신 동시나 노래 가사에 자주 쓰이는 예쁜 말이에요."],
       ["가랑비", "nature", 1, "이슬비보다 조금 굵게, 가늘고 잘게 내리는 비를 말해요.", "우산 쓰기가 귀찮아서 가랑비를 맞고 축구를 했더니 머리가 흠뻑 젖었다.", "'가랑비에 옷 젖는 줄 모른다'는 속담은 사소한 일도 모이면 커진다는 뜻이에요."],
@@ -530,6 +529,24 @@
     const CONSONANTS = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
     const ITEMS_PER_PAGE = 24;
 
+    // localStorage가 막힌 환경(미리보기 창, 쿠키 차단 등)에서도 오류 없이 동작하도록 안전하게 감쌉니다.
+    function loadBookmarks() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('koreanWordBookmarks'));
+        return Array.isArray(saved) ? saved : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveBookmarks() {
+      try {
+        localStorage.setItem('koreanWordBookmarks', JSON.stringify(bookmarkedWords));
+      } catch (e) {
+        // 저장이 막힌 환경에서는 이번 접속 동안만 단어장이 유지됩니다.
+      }
+    }
+
     let allWords = [];
     let filteredWords = [];
     let currentConsonant = null;
@@ -537,7 +554,7 @@
     let currentLevel = 'all';
     let showBookmarksOnly = false;
     let currentPage = 1;
-    let bookmarkedWords = JSON.parse(localStorage.getItem('koreanWordBookmarks')) || [];
+    let bookmarkedWords = loadBookmarks();
 
     function getInitialConsonant(word) {
       const startChar = word.charCodeAt(0);
@@ -645,7 +662,7 @@
         btn.innerHTML = `<i class="fa-solid fa-star text-amber-600"></i><span>단어장 보는 중</span><span class="bg-amber-600 text-white rounded-full px-1.5 py-0.2 text-[11px] font-bold">${bookmarkedWords.length}</span>`;
       } else {
         btn.className = "whitespace-nowrap px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-amber-300 bg-amber-50 text-amber-800 hover:bg-amber-100 flex items-center gap-1.5 shadow-sm transition active:scale-95";
-        btn.innerHTML = `<i class="fa-solid fa-star text-amber-500"></i><span>내 단어장</span><span class="bg-amber-500 text-white rounded-full px-1.5 py-0.2 text-[11px] font-bold">${bookmarkedWords.length}</span>`;
+        btn.innerHTML = `<i class="fa-solid fa-star text-amber-500"></i><span>내 단어장</span><span id="bookmarkCount" class="bg-amber-500 text-white rounded-full px-1.5 py-0.2 text-[11px] font-bold">${bookmarkedWords.length}</span>`;
       }
       applyFiltersAndRender(1);
     }
@@ -834,7 +851,7 @@
       } else {
         bookmarkedWords.splice(index, 1);
       }
-      localStorage.setItem('koreanWordBookmarks', JSON.stringify(bookmarkedWords));
+      saveBookmarks();
       updateBookmarkCount();
       
       const modalBtn = document.getElementById('modalBookmarkBtn');
@@ -848,11 +865,8 @@
 
     function updateBookmarkCount() {
       const count = bookmarkedWords.length;
-      document.getElementById('bookmarkCount').innerText = count;
-      const bBtn = document.getElementById('bookmarkTabBtn');
-      if(!showBookmarksOnly) {
-         bBtn.querySelector('#bookmarkCount').innerText = count;
-      }
+      const countEl = document.getElementById('bookmarkCount');
+      if (countEl) countEl.innerText = count;
     }
 
     function speakWord(text) {
@@ -871,7 +885,7 @@
       const w = allWords.find(item => item.id === id);
       if (!w) return;
 
-      const catInfo = CATEGORY_MAP[w.category] || { label: '기타', bg: 'bg-slate-100', color: 'text-slate-500' };
+      const catInfo = CATEGORY_MAP[w.category] || { label: '기타', bg: 'bg-slate-100', color: 'text-slate-500', icon: 'fa-cube' };
       
       document.getElementById('modalCategoryBadge').className = `text-xs font-extrabold px-3 py-1.5 rounded-xl shadow-sm ${catInfo.bg} ${catInfo.color}`;
       document.getElementById('modalCategoryBadge').innerHTML = `<i class="fa-solid ${catInfo.icon} mr-1"></i> ${catInfo.label}`;
@@ -1122,8 +1136,12 @@
       nextBtn.classList.remove('hidden');
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    // 문서가 이미 로드된 상태라도 init이 반드시 한 번 실행되도록 처리합니다.
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   </script>
 </body>
 </html>
-
