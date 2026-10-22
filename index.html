@@ -32,34 +32,17 @@
     }
   </script>
   <style>
-    .card-hover {
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .card-hover:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.2), 0 8px 10px -6px rgba(16, 185, 129, 0.1);
-    }
-    .custom-scroll::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    .custom-scroll::-webkit-scrollbar-thumb {
-      background: #94a3b8;
-      border-radius: 9999px;
-    }
-    .modal-open {
-      overflow: hidden;
-    }
-    .word-highlight {
-      background: linear-gradient(120deg, #dcfce7 0%, #dcfce7 100%);
-      background-repeat: no-repeat;
-      background-size: 100% 40%;
-      background-position: 0 88%;
-    }
+    .card-hover { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+    .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.2), 0 8px 10px -6px rgba(16, 185, 129, 0.1); }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 9999px; }
+    .modal-open { overflow: hidden; }
+    .word-highlight { background: linear-gradient(120deg, #dcfce7 0%, #dcfce7 100%); background-repeat: no-repeat; background-size: 100% 40%; background-position: 0 88%; }
   </style>
 </head>
 <body class="bg-gradient-to-br from-amber-50/60 via-emerald-50/50 to-sky-50/60 text-slate-800 min-h-screen flex flex-col font-sans selection:bg-emerald-200">
 
+  <!-- 기존 디자인 영역 동일 유지 -->
   <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-emerald-100 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
       <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilters()">
@@ -75,7 +58,6 @@
         </div>
       </div>
 
-      <!-- Action Buttons -->
       <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0 custom-scroll">
         <button id="bookmarkTabBtn" onclick="toggleBookmarkFilter()" class="whitespace-nowrap px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-amber-300 bg-amber-50 text-amber-800 hover:bg-amber-100 flex items-center gap-1.5 shadow-sm transition active:scale-95">
           <i class="fa-solid fa-star text-amber-500"></i>
@@ -97,8 +79,6 @@
   </header>
 
   <main class="flex-grow max-w-6xl mx-auto w-full px-4 py-5 flex flex-col gap-5">
-
-    <!-- Today's Highlight Word Card -->
     <section class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-emerald-100 relative overflow-hidden bg-gradient-to-r from-emerald-50/80 via-white to-sky-50/60">
       <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div class="space-y-2">
@@ -129,7 +109,6 @@
     </section>
 
     <section class="bg-white rounded-3xl p-5 shadow-sm border border-slate-100 space-y-5">
-      <!-- Search Input -->
       <div class="relative group">
         <span class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-emerald-500 transition-colors">
           <i class="fa-solid fa-magnifying-glass text-lg"></i>
@@ -150,7 +129,6 @@
         </button>
       </div>
 
-      <!-- Consonant (ㄱ~ㅎ) Quick Navigation -->
       <div>
         <div class="flex items-center justify-between mb-2.5">
           <label class="text-xs sm:text-sm font-bold text-slate-600 flex items-center gap-1.5">
@@ -160,16 +138,13 @@
           <button onclick="clearConsonantFilter()" class="text-xs text-emerald-600 hover:text-emerald-700 font-bold bg-emerald-50 px-2 py-1 rounded-lg">전체 보기</button>
         </div>
         <div class="grid grid-cols-7 sm:grid-cols-14 gap-1.5 sm:gap-2" id="consonantContainer">
-          <!-- Populated by JavaScript -->
         </div>
       </div>
 
-      <!-- Theme Categories & Difficulty -->
       <div class="flex flex-col lg:flex-row gap-4 pt-4 border-t border-slate-100">
         <div class="flex-1">
           <label class="text-xs font-bold text-slate-500 mb-2 block">주제별 테마</label>
           <div class="flex flex-wrap items-center gap-1.5" id="categoryContainer">
-            <!-- Populated by JavaScript -->
           </div>
         </div>
         
@@ -202,17 +177,12 @@
         </div>
       </div>
 
-      <!-- Words Grid -->
-      <div id="wordGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-        <!-- Rendered dynamically -->
+      <div id="wordGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       </div>
 
-      <!-- Pagination Controls -->
       <div id="paginationContainer" class="flex flex-wrap items-center justify-center gap-2 pt-6 pb-4">
-        <!-- Rendered by JS -->
       </div>
 
-      <!-- Empty State -->
       <div id="emptyState" class="hidden flex-col items-center justify-center p-16 text-center bg-white rounded-3xl border-2 border-dashed border-slate-200">
         <div class="w-16 h-16 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center text-2xl mb-4">
           <i class="fa-solid fa-face-sad-tear"></i>
@@ -236,18 +206,17 @@
     </div>
   </footer>
 
+  <!-- 모달 영역 (단어 상세, 연습장, 퀴즈) -->
   <div id="wordModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden p-4" onclick="handleModalClick(event, 'wordModal')">
     <div class="bg-white rounded-[2rem] max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-100 relative transform transition-all scale-95 opacity-0 duration-200" id="modalCard">
       <button onclick="closeWordModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 w-10 h-10 rounded-full flex items-center justify-center transition-colors text-lg">
         <i class="fa-solid fa-xmark"></i>
       </button>
-
       <div class="space-y-5">
         <div class="flex items-center gap-2">
           <span id="modalCategoryBadge" class="text-xs font-bold px-3 py-1.2 rounded-xl shadow-sm"></span>
           <span id="modalLevelBadge" class="text-xs font-bold px-3 py-1.2 rounded-xl border"></span>
         </div>
-
         <div class="flex items-center justify-between border-b border-slate-100 pb-4">
           <div class="flex items-end gap-3">
             <h2 id="modalTitle" class="text-4xl font-extrabold text-slate-800 tracking-tight"></h2>
@@ -259,20 +228,17 @@
             <i class="fa-regular fa-star text-slate-300"></i>
           </button>
         </div>
-
         <div class="space-y-4 pt-2">
           <div>
             <p class="text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-wider">뜻풀이</p>
             <p id="modalMeaning" class="text-slate-800 text-lg font-bold leading-relaxed break-keep"></p>
           </div>
-
           <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100/50">
             <p class="text-xs font-bold text-emerald-700 mb-2 flex items-center gap-1.5">
               <i class="fa-solid fa-pen-fancy"></i> 이렇게 문장으로 써요
             </p>
             <p id="modalExample" class="text-emerald-900 text-sm font-medium leading-relaxed italic break-keep"></p>
           </div>
-
           <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100/50">
             <p class="text-xs font-bold text-amber-700 mb-2 flex items-center gap-1.5">
               <i class="fa-regular fa-lightbulb"></i> 6학년 돋보기 팁
@@ -281,7 +247,6 @@
           </div>
         </div>
       </div>
-
       <div class="mt-8 flex flex-col sm:flex-row justify-between items-center gap-3">
         <button id="modalPracticeShortcutBtn" class="w-full sm:w-auto px-5 py-3 bg-sky-50 hover:bg-sky-100 text-sky-700 text-sm font-bold rounded-xl transition flex items-center justify-center gap-2 border border-sky-200">
           <i class="fa-solid fa-pen-nib"></i> 이 단어로 문장 짓기
@@ -298,7 +263,6 @@
       <button onclick="closePracticeModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 w-10 h-10 rounded-full flex items-center justify-center transition-colors text-lg">
         <i class="fa-solid fa-xmark"></i>
       </button>
-
       <div class="space-y-5">
         <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
           <span class="w-10 h-10 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-lg font-bold shadow-inner">
@@ -309,7 +273,6 @@
             <p class="text-xs font-medium text-slate-500">배운 고유어를 넣어 멋진 문장을 완성해 보세요!</p>
           </div>
         </div>
-
         <div class="space-y-4">
           <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
             <label class="block text-xs font-bold text-slate-600 mb-2">1. 사용할 고유어 선택하기</label>
@@ -322,20 +285,18 @@
                 oninput="filterPracticeOptions()"
               />
               <select id="practiceWordSelect" onchange="updatePracticeWordDetail()" class="w-2/3 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-400 cursor-pointer shadow-sm">
-                <!-- Populated dynamically -->
               </select>
             </div>
             <div class="mt-3 p-3 bg-white rounded-xl border border-slate-100">
               <p id="practiceWordMeaningHint" class="text-sm text-slate-700 font-medium"></p>
             </div>
           </div>
-
           <div>
             <label class="block text-xs font-bold text-slate-600 mb-2">2. 나만의 문장 쓰기</label>
             <textarea 
               id="practiceSentenceInput" 
               rows="4" 
-              placeholder="선택한 고유어를 포함해서 자연스러운 문장을 지어보세요. (예: 오늘 배운 '윤슬'을 넣어 글짓기를 했다.)"
+              placeholder="선택한 고유어를 포함해서 자연스러운 문장을 지어보세요."
               class="w-full bg-slate-50 hover:bg-white border-2 border-slate-200 rounded-2xl p-4 text-sm font-medium focus:bg-white focus:outline-none focus:border-sky-400 focus:ring-4 focus:ring-sky-100 transition-all resize-none shadow-inner"
               oninput="handlePracticeInput()"
             ></textarea>
@@ -346,7 +307,6 @@
               <span id="practiceCharCount">0자</span>
             </div>
           </div>
-
           <div id="practiceSuccessBox" class="hidden p-4 bg-emerald-50 border-2 border-emerald-200 rounded-2xl text-emerald-800 text-sm font-bold flex items-start gap-3 shadow-sm transform transition-all">
             <i class="fa-solid fa-face-smile-wink text-emerald-500 text-2xl mt-0.5"></i>
             <div>
@@ -364,7 +324,6 @@
       <button onclick="closeQuizModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 w-10 h-10 rounded-full flex items-center justify-center transition-colors text-lg">
         <i class="fa-solid fa-xmark"></i>
       </button>
-
       <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
         <span class="w-10 h-10 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-xl shadow-inner">
           <i class="fa-solid fa-crown"></i>
@@ -374,19 +333,14 @@
           <p class="text-xs font-medium text-slate-500">설명을 읽고 알맞은 고유어를 맞춰보세요!</p>
         </div>
       </div>
-
       <div id="quizQuestionBox" class="space-y-5">
         <div class="bg-slate-50 p-5 rounded-2xl border-2 border-slate-100 relative">
           <span class="absolute -top-3 left-4 text-xs font-bold text-white bg-emerald-500 px-3 py-1 rounded-full shadow-sm">문제</span>
           <p id="quizMeaning" class="text-slate-800 font-bold text-base mt-2 min-h-[60px] flex items-center leading-relaxed break-keep"></p>
         </div>
-
         <div id="quizOptions" class="grid grid-cols-1 gap-2.5">
-          <!-- Quiz buttons -->
         </div>
-
         <div id="quizFeedback" class="hidden p-4 rounded-xl text-center text-sm font-bold shadow-sm transition-all transform scale-95"></div>
-
         <div class="flex justify-between items-center pt-4 border-t border-slate-100">
           <div class="flex flex-col">
             <span class="text-[10px] font-bold text-slate-400 uppercase">내 점수</span>
@@ -401,13 +355,8 @@
   </div>
 
   <script>
-    /*
-     * [선생님 안내용 주석]
-     * 초등 6학년 대상 고유어 데이터베이스입니다.
-     * 이 아래 배열에 단어를 계속 추가하시면, 자동으로 자음 카운트가 늘어나고 검색이 작동합니다.
-     */
+    // 
     const RAW_WORDS = [
-      // ========================== [ㄱ] 50개 꽉 채운 1차 분량 ==========================
       ["가람", "nature", 1, "강(江)을 예스럽고 아름답게 이르는 우리 고유어입니다. 아주 넓고 길게 흐르는 물줄기를 뜻해요.", "넓은 들판을 가로질러 푸른 가람이 도도하게 흐른다.", "한자어 '강' 대신 동시나 노래 가사에 자주 쓰이는 예쁜 말이에요."],
       ["가랑비", "nature", 1, "이슬비보다 조금 굵게 가늘고 잘게 내리는 비를 말해요.", "초여름 들판에 촉촉한 가랑비가 내려 풀잎을 흠뻑 적셨다.", "'가랑비에 옷 젖는 줄 모른다'는 속담은 사소한 것도 모이면 커진다는 뜻이에요."],
       ["가리사니", "heart", 3, "어떤 사물을 판단할 만한 지각이나 일의 실마리를 뜻해요.", "문제가 너무 복잡했지만 차분히 생각하니 가리사니가 잡혔다.", "어려운 문제의 해결책을 찾을 때 '가리사니를 잡다'라고 표현해요."],
@@ -418,46 +367,7 @@
       ["꼬리별", "nature", 1, "하늘에서 빗자루처럼 긴 꼬리를 끌며 지나가는 별, 즉 혜성을 뜻해요.", "어젯밤 맑은 밤하늘에 은빛 꼬리별이 길게 흔적을 남기며 지나갔다.", "과학 시간에 배우는 '혜성'의 순우리말 이름입니다."],
       ["꽃가람", "nature", 1, "꽃이 만발하게 피어 있는 맑고 아름다운 강을 뜻합니다.", "봄바람을 타고 벚꽃 잎이 흩날리는 꽃가람 언덕을 신나게 달렸다.", "꽃과 가람(강)이 합쳐져 한 폭의 그림 같은 단어가 되었어요."],
       ["꽃구름", "nature", 1, "해 질 녘이나 해 뜰 때 꽃처럼 곱고 화사하게 붉은빛으로 물든 구름입니다.", "서쪽 하늘에 오색 꽃구름이 환상적으로 펼쳐져 눈을 뗄 수 없었다.", "저녁놀에 아름답게 물든 구름을 시적으로 표현할 때 씁니다."],
-      ["길라잡이", "action", 1, "길을 인도해 주는 사람이나, 나아갈 바를 가르쳐 주는 지침서를 뜻해요.", "선생님의 따뜻한 말씀은 내 꿈을 찾아가는 든든한 길라잡이가 되었다.", "안내자, 가이드와 같은 뜻의 멋진 순우리말이에요."],
-      ["가시버시", "daily", 3, "아내와 남편을 묶어서 부르는 옛말이에요.", "두 사람은 늘 함께 다니는 잉꼬같은 가시버시입니다.", "결혼한 부부를 귀엽게 부르는 말이에요."],
-      ["가온길", "heart", 2, "가운데로 곧게 난 길, 즉 정직하고 바른 길을 뜻해요.", "항상 가온길만 걷는 바르고 정직한 어른이 될게요.", "'가온'은 가운데를 뜻하는 우리말이에요."],
-      ["가우리", "heart", 3, "고구려를 부르던 우리말 이름이자 '가운데'라는 뜻이에요.", "우리는 가우리의 씩씩한 기상을 이어받았어요.", "고구려의 중심이라는 자부심이 담겨 있어요."],
-      ["가을거짓", "time", 2, "가을에 다 자란 곡식을 거두어들이는 일이에요. (추수)", "농부 아저씨들이 황금빛 들판에서 가을거짓으로 바쁘십니다.", "가을과 '거두다'가 합쳐진 말이에요."],
-      ["가장자리", "daily", 1, "어떤 것의 둘레나 끝부분을 말해요.", "색종이의 가장자리를 가위로 예쁘게 오려주세요.", "끝부분, 테두리와 같은 뜻이에요."],
-      ["가축", "action", 3, "물건이나 몸가짐을 알뜰하게 매만져서 잘 간직하는 것을 말해요.", "선물 받은 학용품을 가축해서 오래오래 썼다.", "동물 '가축'과는 완전히 다른 뜻이에요!"],
-      ["감때사나우다", "heart", 3, "사람의 성질이 억세고 사납다, 또는 험악하다는 뜻이에요.", "그 강아지는 감때사납게 짖으며 낯선 사람을 쫓아냈다.", "가까이 가기 무서울 정도로 사나울 때 써요."],
-      ["감바르다", "action", 3, "이익을 노리고 남보다 먼저 재빠르게 달라붙는 모습이에요.", "할인 행사가 시작되자마자 사람들이 감바르게 모여들었다.", "욕심을 내서 날쌔게 움직일 때 써요."],
-      ["갓밝이", "time", 2, "날이 막 밝아올 무렵, 즉 이른 새벽을 말해요.", "갓밝이에 일어나 산책을 하니 공기가 무척 상쾌하다.", "이제 막(갓) 밝아온다는 뜻이에요."],
-      ["강다리", "heart", 3, "남녀가 서로 정이 들어 떨어지지 못하고 맺어진 인연이에요.", "두 사람은 보이지 않는 강다리로 단단히 연결된 것 같다.", "단단하게 이어주는 다리라고 생각해보세요."],
-      ["갖은", "daily", 1, "골고루 다 갖춘, 또는 여러 가지의 라는 뜻이에요.", "갖은 양념을 넣어서 맛있는 불고기를 완성했다.", "갖은 고생, 갖은 핑계 등으로 자주 써요."],
-      ["개구쟁이", "daily", 1, "심하게 장난을 치는 아이를 귀엽게 부르는 말이에요.", "우리 반 최고의 개구쟁이가 오늘은 웬일인지 얌전하네.", "너무 심한 장난은 친구를 속상하게 할 수 있어요."],
-      ["거늘출하다", "daily", 3, "키가 크고 몸이 가늘어 시원스럽게 생긴 모습이에요.", "거늘출한 키에 멋진 옷을 입으니 마치 모델 같다.", "늘씬하고 시원시원한 모습을 상상해 보세요."],
-      ["거늘치다", "nature", 3, "구름이나 연기 등이 하늘을 덮어 그늘을 짓는다는 뜻이에요.", "먹구름이 까맣게 거늘쳐서 곧 비가 쏟아질 것 같다.", "그늘이 진다는 말과 비슷해요."],
-      ["거드름", "heart", 2, "잘난 체하며 교만하게 구는 태도예요.", "대회에서 1등을 했다고 거드름을 피우면 친구들이 싫어해요.", "거드름을 피우다, 거드름을 부리다라고 써요."],
-      ["거우다", "heart", 3, "속이 상하거나 애가 타게 하다라는 뜻의 옛말이에요.", "친구가 약속을 안 지켜서 내 마음을 온통 거웠다.", "마음을 까맣게 태운다고 생각해 보세요."],
-      ["거칠다", "daily", 1, "표면이 매끄럽지 않거나, 행동이 부드럽지 못한 거예요.", "겨울바람을 많이 맞아서 손등이 거칠어졌다.", "거친 행동보다는 부드러운 행동이 좋아요."],
-      ["건들바람", "nature", 2, "초가을에 선들선들 부는 부드러운 바람이에요.", "건들바람이 부니 길가에 코스모스가 예쁘게 춤을 추네.", "바람결이 건들건들 가볍게 부는 느낌이에요."],
-      ["걸싸다", "action", 3, "동작이 날래고 일솜씨가 시원시원하다는 뜻이에요.", "우리 모둠장은 성격이 걸싸서 맡은 일을 금방 끝낸다.", "답답함 없이 빠르고 시원하게 일하는 모습!"],
-      ["걸쩍거리다", "action", 3, "말이나 행동을 아무 거리낌 없이 큼직큼직하게 하는 모습이에요.", "너무 걸쩍거리며 밥을 먹으면 상대방이 당황할 수 있어.", "자신감 있는 건 좋지만 예의는 지켜야 해요."],
-      ["고샅", "daily", 3, "시골 마을의 좁은 골목길이나 그 사이를 뜻해요.", "아이들이 고샅을 이리저리 누비며 술래잡기를 합니다.", "골목보다 조금 더 정겨운 시골 느낌이 나요."],
-      ["고운", "daily", 1, "모양이나 색깔이 보기 좋게 아름답다는 뜻이에요.", "우리 반 친구들의 고운 마음씨에 선생님이 감동하셨어.", "고운 말을 쓰면 내 얼굴도 고와진답니다."],
-      ["고즈넉하다", "heart", 2, "아주 조용하고 평화로우며 아늑한 느낌을 말해요.", "아무도 없는 도서관의 고즈넉한 분위기가 나는 참 좋다.", "마음이 차분해지는 조용한 곳에 어울려요."],
-      ["골짜기", "nature", 1, "산과 산 사이에 깊게 움푹 파인 곳이에요.", "깊은 골짜기 사이로 맑고 시원한 계곡물이 흐른다.", "골짜기에서는 메아리가 크게 울린답니다."],
-      ["곰살갑다", "heart", 2, "성질이 부드럽고 다정하며 친절하다는 뜻이에요.", "매일 아침 곰살갑게 인사를 건네는 후배가 참 귀엽다.", "곰돌이처럼 포근하고 다정한 성격을 상상해 보세요."],
-      ["곱슬곱슬", "daily", 1, "머리카락이나 털이 동그랗게 말려 있는 모양이에요.", "우리 강아지의 곱슬곱슬한 털을 만지면 기분이 아주 좋아.", "반대말은 '직모(생머리)'랍니다."],
-      ["구다", "action", 3, "가라앉거나 잦아들다, 또는 그렇게 되게 하다는 뜻의 옛말이에요.", "동생과 싸우고 성난 마음을 꾹꾹 눌러 구웠다.", "화난 감정을 꾹 눌러 가라앉히는 거예요."],
-      ["구레나룻", "daily", 2, "귀밑에서 턱까지 이어져 난 털을 말해요.", "사자는 멋진 구레나룻을 가지고 있어 동물의 왕이 되었어.", "우리말 표준어는 '구레나룻'이 맞습니다. (구렛나루 X)"],
-      ["구름", "nature", 1, "공기 중의 수증기가 엉겨서 하늘에 떠 있는 것이에요.", "파란 하늘에 솜사탕 같은 흰 구름이 두둥실 떠 있다.", "비구름, 먹구름, 뭉게구름 등 종류가 다양해요."],
-      ["구쁘다", "food", 3, "배 속이 허전하여 자꾸 먹고 싶다는 뜻이에요.", "점심을 적게 먹었더니 오후 내내 입이 구쁘네.", "출출하고 입이 심심할 때 쓰는 재미있는 말!"],
-      ["국화", "nature", 1, "가을에 피는 예쁜 꽃으로, 순우리말로는 '구일초'라고도 해요.", "가을 화단에 노란 국화가 활짝 피어 향기가 납니다.", "사군자(매, 난, 국, 죽) 중 하나예요."],
-      ["군것질", "food", 1, "끼니 외에 떡이나 과자 같은 것을 먹는 일이에요.", "군것질을 너무 많이 하면 정작 밥맛이 없어져요.", "건강한 간식을 챙겨 먹는 습관을 기르자!"],
-      ["굴레", "daily", 2, "말이나 소를 부리기 위해 머리에 씌우는 줄을 말해요.", "말에 굴레를 씌워 사람이 안전하게 탈 수 있게 준비했다.", "어떤 일에 얽매여 자유롭지 못할 때도 써요."],
-      ["귀걸이", "daily", 1, "귀에 걸어 장식하는 물건이나 추위를 막는 도구예요.", "엄마가 반짝이는 예쁜 귀걸이를 하시고 외출하셨다.", "예전에는 추위를 막는 '귀도리'를 귀걸이라고도 했어요."],
-      ["그루터기", "nature", 2, "나무를 베어내고 남은 밑동을 말해요.", "피곤한 나그네가 숲속 그루터기에 앉아 쉬어갑니다.", "아낌없이 주는 나무가 마지막에 내어준 쉼터이지요."],
-      ["그리메", "nature", 3, "'그림자'를 뜻하는 아름다운 옛말이에요.", "달빛에 비친 커다란 나무의 그리메가 마당에 길게 늘어졌다.", "그림자보다 시적이고 부드러운 느낌이 들죠?"],
-      ["글썽이다", "heart", 1, "눈에 눈물이 가득 고여 금방이라도 떨어질 듯한 모습이에요.", "감동적인 영화 마지막 장면을 보고 나도 모르게 눈물을 글썽였다.", "눈물이 맺혀 빛나는 모습을 상상해 보세요."],
-      ["길마", "daily", 3, "짐을 싣기 위해 소나 말의 등에 얹는 안장이에요.", "소 등에 길마를 얹고 가을에 수확한 볏단을 가득 실었다.", "짐을 지게 하는 무거운 책임감을 뜻하기도 해요."],
-      ["깜찍하다", "daily", 1, "작고 귀여우며 행동이 재치 있고 영리하다는 뜻이에요.", "깜찍한 강아지가 내 쪽으로 꼬리를 흔들며 다가왔어.", "체구는 작지만 야무진 느낌을 줘요."]
+      ["길라잡이", "action", 1, "길을 인도해 주는 사람이나, 나아갈 바를 가르쳐 주는 지침서를 뜻해요.", "선생님의 따뜻한 말씀은 내 꿈을 찾아가는 든든한 길라잡이가 되었다.", "외래어인 '가이드(Guide)'를 아주 멋지게 대체할 수 있는 우리말입니다."],
       ["나비잠", "daily", 1, "갓난아이가 두 팔을 머리 위로 벌리고 편안하고 달콤하게 자는 잠이에요.", "어린 동생이 포근한 이불 속에서 나비잠을 자는 모습이 천사 같았다.", "팔을 벌린 모습이 나비 날개 같다고 해서 붙여진 귀여운 이름입니다."],
       ["나르샤", "action", 2, "'날아오르다'라는 뜻을 가진 역동적이고 웅장한 옛말 표현입니다.", "희망찬 미래를 향해 날개를 활짝 펴고 창공으로 높이 나르샤!", "세종대왕의 <용비어천가>에 등장하는 역사적이고 멋진 구절이에요."],
       ["남실바람", "nature", 1, "얼굴에 부드럽게 스치며 나뭇잎이 살랑살랑 흔들리게 부는 기분 좋은 바람입니다.", "따스한 봄날 들판에 남실바람이 불어 청보리밭이 일렁였다.", "초등 과학 교과서 '바람의 세기'에서도 배우는 공식적인 우리말 바람 이름이에요."],
@@ -510,14 +420,6 @@
       ["눈물", "heart", 1, "슬프거나 기쁘거나 아플 때 사람의 눈에서 뺨으로 흘러내리는 맑고 짭짤한 물입니다.", "운동회 계주에서 아쉽게 역전당해 져버리자 속상한 마음에 나도 모르게 눈물이 났다.", "사람의 가장 진실한 감정을 표현하는 투명한 보석 같은 순우리말 단어입니다."]
     ];
 
-    // =====================================================================
-    // 선생님 필독: 
-    // 위 배열 규칙처럼 아래에 단어를 계속 복사해서 붙여넣어 주세요! 
-    // 코드가 자동으로 단어를 인식해서 자음 카테고리에 분류하고 개수를 올려줍니다.
-    // =====================================================================
-
-
-    // DOM Elements
     const wordGrid = document.getElementById('wordGrid');
     const searchInput = document.getElementById('searchInput');
     const clearSearchBtn = document.getElementById('clearSearchBtn');
@@ -530,7 +432,6 @@
     const pageInfoText = document.getElementById('pageInfoText');
     const bookmarkCount = document.getElementById('bookmarkCount');
 
-    // Mappings and config
     const CATEGORY_MAP = {
       "nature": { label: "자연과 날씨", icon: "fa-leaf", color: "text-emerald-600", bg: "bg-emerald-100" },
       "heart": { label: "마음과 태도", icon: "fa-heart", color: "text-rose-500", bg: "bg-rose-100" },
@@ -542,7 +443,6 @@
     const CONSONANTS = ['ㄱ', 'ㄴ', 'ㄷ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅅ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
     const ITEMS_PER_PAGE = 24;
 
-    // App State
     let allWords = [];
     let filteredWords = [];
     let currentConsonant = null;
@@ -552,22 +452,17 @@
     let currentPage = 1;
     let bookmarkedWords = JSON.parse(localStorage.getItem('koreanWordBookmarks')) || [];
 
-    // Helper: Extract initial consonant
     function getInitialConsonant(word) {
       const startChar = word.charCodeAt(0);
       if (startChar >= 0xAC00 && startChar <= 0xD7A3) {
         const initialIndex = Math.floor((startChar - 0xAC00) / 588);
         const initials = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
-        // ㄲ, ㄸ 등 쌍자음을 기본 자음으로 묶어주기
-        const mergeMap = {'ㄲ':'ㄱ', 'ㄸ':'ㄷ', 'ㅃ':'ㅂ', 'ㅆ':'ㅅ', 'ㅉ':'ㅈ'};
-        const orig = initials[initialIndex];
-        return mergeMap[orig] || orig;
+        return initials[initialIndex];
       }
       return "";
     }
 
     function init() {
-      // Process raw data into objects
       allWords = RAW_WORDS.map((data, index) => {
         const word = data[0];
         return {
@@ -582,7 +477,6 @@
         };
       });
 
-      // Sort alphabetically by default
       allWords.sort((a, b) => a.word.localeCompare(b.word));
       
       totalWordsBadge.innerText = `${allWords.length}단어 수록`;
@@ -617,7 +511,7 @@
       allWords.forEach(w => catCounts[w.category] = (catCounts[w.category] || 0) + 1);
 
       Object.entries(CATEGORY_MAP).forEach(([key, info]) => {
-        if (!catCounts[key]) return; // Skip empty categories
+        if (!catCounts[key]) return;
         const btn = document.createElement('button');
         btn.onclick = () => setCategoryFilter(key);
         btn.id = `catBtn-${key}`;
@@ -628,7 +522,7 @@
     }
 
     function setConsonantFilter(c) {
-      if (currentConsonant === c) currentConsonant = null; // toggle off
+      if (currentConsonant === c) currentConsonant = null;
       else currentConsonant = c;
       renderConsonantFilters();
       applyFiltersAndRender(1);
@@ -716,15 +610,10 @@
       const sortVal = document.getElementById('sortSelect').value;
 
       filteredWords = allWords.filter(w => {
-        // Bookmarks
         if (showBookmarksOnly && !bookmarkedWords.includes(w.id)) return false;
-        // Consonant
         if (currentConsonant && w.consonant !== currentConsonant) return false;
-        // Category
         if (currentCategory && w.category !== currentCategory) return false;
-        // Level
         if (currentLevel !== 'all' && w.level !== currentLevel) return false;
-        // Search text (Word, Meaning, Example)
         if (query) {
           return w.word.toLowerCase().includes(query) || 
                  w.meaning.toLowerCase().includes(query) || 
@@ -733,7 +622,6 @@
         return true;
       });
 
-      // Sort
       filteredWords.sort((a, b) => {
         if (sortVal === 'nameAsc') return a.word.localeCompare(b.word);
         if (sortVal === 'nameDesc') return b.word.localeCompare(a.word);
@@ -775,33 +663,25 @@
         const catInfo = CATEGORY_MAP[w.category] || { label: '기타', color: 'text-slate-500', bg: 'bg-slate-100', icon: 'fa-cube' };
         
         const card = document.createElement('div');
-        // ====== 디자인 수정: 클릭 유도 및 단어 강조 ======
-        card.className = "bg-white rounded-3xl p-4 sm:p-5 border border-slate-100 shadow-sm cursor-pointer card-hover relative group flex flex-col h-full";
+        card.className = "bg-white rounded-3xl p-5 border border-slate-100 shadow-sm cursor-pointer card-hover relative group flex flex-col items-center justify-center min-h-[140px]";
         card.onclick = (e) => {
           if(!e.target.closest('button.bookmark-btn')) openWordModal(w.id);
         };
         
         card.innerHTML = `
-          <div class="flex items-start justify-between mb-2">
-            <div class="flex gap-1.5 flex-wrap">
-              <span class="${catInfo.bg} ${catInfo.color} text-[10px] font-extrabold px-2.5 py-1 rounded-lg flex items-center gap-1">
-                <i class="fa-solid ${catInfo.icon}"></i> ${catInfo.label}
-              </span>
-              <span class="border border-slate-200 text-slate-500 text-[10px] font-bold px-2 py-1 rounded-lg">
-                ${w.level}단계
-              </span>
-            </div>
+          <div class="absolute top-4 left-4 flex gap-1.5">
+            <span class="${catInfo.bg} ${catInfo.color} text-[10px] font-extrabold px-2 py-0.5 rounded flex items-center gap-1">
+              <i class="fa-solid ${catInfo.icon}"></i> ${catInfo.label}
+            </span>
+          </div>
+          <div class="absolute top-3 right-3">
             <button class="bookmark-btn text-xl transition-transform hover:scale-125 active:scale-95 ${isBookmarked ? 'text-amber-400' : 'text-slate-200 hover:text-amber-200'}" onclick="toggleBookmark(${w.id}, event)" title="단어장에 추가/해제">
               <i class="fa-${isBookmarked ? 'solid' : 'regular'} fa-star"></i>
             </button>
           </div>
-          
-          <div class="flex flex-col items-center justify-center flex-grow py-5">
-            <h3 class="text-3xl font-extrabold text-slate-800 font-fun tracking-wide group-hover:text-emerald-500 transition-colors transform group-hover:scale-110 duration-200">${w.word}</h3>
-          </div>
-          
-          <div class="mt-auto pt-3 border-t border-slate-50 text-[11px] text-slate-400 font-bold flex justify-center items-center opacity-0 group-hover:opacity-100 transition-opacity">
-             <span class="text-emerald-500 bg-emerald-50 px-3 py-1 rounded-full"><i class="fa-solid fa-hand-pointer mr-1"></i>뜻풀이 보기</span>
+          <h3 class="text-3xl font-extrabold text-slate-800 font-fun tracking-wide group-hover:text-emerald-600 transition-colors mt-2">${w.word}</h3>
+          <div class="absolute bottom-4 opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-xs font-bold text-emerald-500 bg-emerald-50 px-3 py-1 rounded-full">
+            <i class="fa-solid fa-hand-pointer"></i> 뜻풀이 보기
           </div>
         `;
         wordGrid.appendChild(card);
@@ -827,10 +707,8 @@
         return btn;
       };
 
-      // Prev
       paginationContainer.appendChild(createBtn('<i class="fa-solid fa-chevron-left"></i>', currentPage - 1, currentPage === 1));
 
-      // Page numbers (smart rendering)
       let startP = Math.max(1, currentPage - 2);
       let endP = Math.min(totalPages, currentPage + 2);
       
@@ -858,7 +736,6 @@
         paginationContainer.appendChild(createBtn(totalPages, totalPages));
       }
 
-      // Next
       paginationContainer.appendChild(createBtn('<i class="fa-solid fa-chevron-right"></i>', currentPage + 1, currentPage === totalPages));
     }
 
@@ -873,14 +750,12 @@
       localStorage.setItem('koreanWordBookmarks', JSON.stringify(bookmarkedWords));
       updateBookmarkCount();
       
-      // Update specific modal icon if open
       const modalBtn = document.getElementById('modalBookmarkBtn');
       if(modalBtn && !document.getElementById('wordModal').classList.contains('hidden')) {
         const isBook = bookmarkedWords.includes(id);
         modalBtn.innerHTML = `<i class="fa-${isBook ? 'solid' : 'regular'} fa-star ${isBook ? 'text-amber-400' : 'text-slate-300'}"></i>`;
       }
       
-      // Re-render grid to update icons (or filter out if in bookmark mode)
       applyFiltersAndRender(currentPage);
     }
 
@@ -897,7 +772,7 @@
       if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'ko-KR';
-        utterance.rate = 0.85; // Slightly slower for clarity
+        utterance.rate = 0.85;
         utterance.pitch = 1.1;
         window.speechSynthesis.speak(utterance);
       } else {
@@ -938,7 +813,6 @@
       modal.classList.remove('hidden');
       document.body.classList.add('modal-open');
       
-      // Animation trigger
       setTimeout(() => {
         card.classList.remove('scale-95', 'opacity-0');
         card.classList.add('scale-100', 'opacity-100');
@@ -966,7 +840,6 @@
     }
 
     function pickRandomTodayWord() {
-      // Favor level 1 or 2 for today's word
       const candidates = allWords.filter(w => w.level <= 2);
       const w = candidates[Math.floor(Math.random() * candidates.length)] || allWords[0];
       
@@ -977,7 +850,6 @@
       document.getElementById('todayWordMeaning').innerText = w.meaning;
       document.getElementById('todayWordExample').innerText = `"${w.example}"`;
       
-      // Animation effect
       const card = document.getElementById('todayWordTitle').parentElement.parentElement;
       card.classList.add('opacity-50', 'scale-[0.98]');
       setTimeout(() => {
@@ -1040,7 +912,7 @@
       const w = allWords.find(x => x.id === id);
       if (w) {
         document.getElementById('practiceWordMeaningHint').innerHTML = `<span class="font-bold text-sky-600">[${w.word}]</span> ${w.meaning}`;
-        handlePracticeInput(); // Re-check sentence against new word
+        handlePracticeInput(); 
       }
     }
 
@@ -1063,7 +935,6 @@
         return;
       }
 
-      // Check if word exists in text
       if (text.includes(w.word)) {
         if (text.length >= 10) { 
           successBox.classList.remove('hidden');
@@ -1113,12 +984,11 @@
       optionsContainer.innerHTML = '';
       optionsContainer.classList.remove('pointer-events-none');
 
-      // Pick 1 correct word, 3 wrong words
       const shuffled = [...allWords].sort(() => 0.5 - Math.random());
       currentQuizWord = shuffled[0];
       
       const options = [currentQuizWord, shuffled[1], shuffled[2], shuffled[3]];
-      options.sort(() => 0.5 - Math.random()); // shuffle options
+      options.sort(() => 0.5 - Math.random());
 
       document.getElementById('quizMeaning').innerText = currentQuizWord.meaning;
 
@@ -1132,12 +1002,11 @@
     }
 
     function handleQuizAnswer(selectedId, btnElement, container) {
-      container.classList.add('pointer-events-none'); // Prevent multiple clicks
+      container.classList.add('pointer-events-none'); 
       
       const feedback = document.getElementById('quizFeedback');
       const nextBtn = document.getElementById('nextQuizBtn');
       
-      // Highlight correct answer anyway
       Array.from(container.children).forEach(child => {
         if(child.innerText === currentQuizWord.word) {
            child.classList.add('bg-emerald-100', 'border-emerald-400', 'text-emerald-800');
@@ -1150,7 +1019,6 @@
       feedback.classList.remove('hidden');
       
       if (selectedId === currentQuizWord.id) {
-        // Correct
         quizScore += 10;
         updateQuizScoreDisplay();
         btnElement.classList.add('ring-4', 'ring-emerald-200', 'transform', 'scale-105');
@@ -1158,7 +1026,6 @@
         feedback.innerHTML = `정답입니다! 👏 아주 잘했어요. <br><span class="text-xs font-normal mt-1 block text-emerald-600">"${currentQuizWord.example}"</span>`;
         speakWord("정답");
       } else {
-        // Wrong
         btnElement.classList.remove('opacity-50');
         btnElement.classList.add('bg-rose-50', 'border-rose-300', 'text-rose-700', 'ring-4', 'ring-rose-100');
         feedback.className = "mt-4 p-4 rounded-xl text-center text-sm font-bold bg-rose-50 text-rose-700 border border-rose-200 shadow-sm";
@@ -1168,7 +1035,6 @@
       nextBtn.classList.remove('hidden');
     }
 
-    // Initialize the app when DOM is ready
     document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
