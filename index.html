@@ -516,7 +516,12 @@
       if (startChar >= 0xAC00 && startChar <= 0xD7A3) {
         const initialIndex = Math.floor((startChar - 0xAC00) / 588);
         const initials = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
-        return initials[initialIndex];
+        let consonant = initials[initialIndex];
+        
+        //
+        const doubleToSingleMap = { 'ㄲ': 'ㄱ', 'ㄸ': 'ㄷ', 'ㅃ': 'ㅂ', 'ㅆ': 'ㅅ', 'ㅉ': 'ㅈ' };
+        
+        return doubleToSingleMap[consonant] || consonant;
       }
       return "";
     }
