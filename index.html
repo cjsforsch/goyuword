@@ -335,10 +335,11 @@
     let currentPage = 1;
     let bookmarkedWords = loadBookmarks();
 
-    function getInitialConsonant(word) {
+function getInitialConsonant(word) {
       const startChar = word.charCodeAt(0);
       if (startChar >= 0xAC00 && startChar <= 0xD7A3) {
         const initialIndex = Math.floor((startChar - 0xAC00) / 588);
+        // ㄲ, ㄸ, ㅃ, ㅆ, ㅉ 쌍자음을 ㄱ, ㄷ, ㅂ, ㅅ, ㅈ 기본 자음으로 묶어서 반환합니다.
         const initials = ["ㄱ", "ㄱ", "ㄴ", "ㄷ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅂ", "ㅅ", "ㅅ", "ㅇ", "ㅈ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
         return initials[initialIndex];
       }
