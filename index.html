@@ -227,7 +227,7 @@
   </div>
 
   <script>
-    // 
+    //
     const RAW_WORDS = [
       ["가꾸다", "action", 1, "1. 식물을 정성껏 보살펴서 잘 자라게 하는 일이에요.<br>2. 외모나 몸을 보기 좋게 꾸미는 일이에요.", "1. 봄이 되어 교실 창가에 있는 화분 속 꽃을 정성껏 가꾸었다.<br>2. 틈틈이 운동을 하며 몸을 튼튼하게 가꾸었다.", "'꿈을 가꾸다'처럼 자신의 실력이나 목표를 훌륭하게 키워갈 때도 멋지게 쓰는 말이에요."],
       ["가누다", "action", 2, "1. 몸의 자세를 똑바로 잡는 행동이에요.<br>2. 정신이나 기운을 흩어지지 않게 차리는 뜻이에요.", "1. 오래달리기를 하고 나서 숨을 헐떡이며 겨우 몸을 가누었다.<br>2. 너무 슬퍼서 무너지는 마음을 가누기 힘들었다.", "주로 '몸을 가누다', '마음을 가누다'처럼 아프거나 힘들 때 중심을 잡는 의미로 씁니다."],
@@ -339,7 +339,7 @@
       const startChar = word.charCodeAt(0);
       if (startChar >= 0xAC00 && startChar <= 0xD7A3) {
         const initialIndex = Math.floor((startChar - 0xAC00) / 588);
-        const initials = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
+        const initials = ["ㄱ", "ㄱ", "ㄴ", "ㄷ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅂ", "ㅅ", "ㅅ", "ㅇ", "ㅈ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"];
         return initials[initialIndex];
       }
       return "";
@@ -552,7 +552,7 @@
       document.getElementById('modalLevelBadge').className = `text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-200 text-slate-600 bg-white`;
       document.getElementById('modalTitle').innerText = w.word;
       
-      // innerHTML로 변경하여 <br> 등 HTML 태그 렌더링 지원
+      // 줄바꿈 태그 렌더링 지원
       document.getElementById('modalMeaning').innerHTML = w.meaning;
       document.getElementById('modalExample').innerHTML = w.example; 
       
@@ -591,7 +591,7 @@
       document.getElementById('todayWordLevel').innerText = `${w.level}단계`;
       document.getElementById('todayWordTitle').innerText = w.word;
       
-      // innerHTML로 변경
+      // 줄바꿈 태그 렌더링 지원
       document.getElementById('todayWordMeaning').innerHTML = w.meaning;
       document.getElementById('todayWordExample').innerHTML = w.example; 
       
@@ -628,11 +628,10 @@
       if (w) { document.getElementById('practiceWordMeaningHint').innerHTML = `<span class="font-bold text-sky-600">[${w.word}]</span> ${w.meaning}`; handlePracticeInput(); }
     }
 
-    // 스마트 고유어 활용형 검사 함수
+    // 스마트 고유어 활용형 검사기 함수
     function checkWordUsed(text, word) {
       if (text.includes(word)) return true;
 
-      // 1. '하다', '거리다', '대다', '이다' 등으로 끝나는 단어 처리
       if (word.endsWith('하다') || word.endsWith('이다') || word.endsWith('대다')) {
         if (text.includes(word.slice(0, -2))) return true;
       }
@@ -640,7 +639,6 @@
         if (text.includes(word.slice(0, -3))) return true;
       }
 
-      // 2. '다'로 끝나는 동사/형용사 불규칙 활용 검사
       if (word.endsWith('다')) {
         const stem = word.slice(0, -1);
         if (text.includes(stem)) return true;
@@ -674,11 +672,10 @@
           if (text.includes(noS + '어') || text.includes(noS + '아') || text.includes(noS + '은') || text.includes(noS + '었') || text.includes(noS + '았')) return true;
         }
       }
-
       return false;
     }
 
-    // 개선된 문장 짓기 검사 함수 적용
+    // 스마트 검사기를 활용한 문장 입력 확인 함수
     function handlePracticeInput() {
       const id = parseInt(document.getElementById('practiceWordSelect').value);
       const w = allWords.find(x => x.id === id); 
@@ -734,7 +731,7 @@
       if (!currentQuizWord) return;
       const options = [currentQuizWord, shuffled[1], shuffled[2], shuffled[3]].sort(() => 0.5 - Math.random());
       
-      // 퀴즈 창에서도 줄바꿈 인식
+      // 퀴즈 화면에서도 줄바꿈 렌더링 지원
       document.getElementById('quizMeaning').innerHTML = currentQuizWord.meaning;
       
       options.forEach(opt => {
@@ -757,7 +754,7 @@
         quizScore += 10; updateQuizScoreDisplay(); btnElement.classList.add('ring-4', 'ring-emerald-200', 'transform', 'scale-105');
         feedback.className = "mt-4 p-4 rounded-xl text-center text-sm font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-sm animate-bounce";
         
-        // 정답 피드백 예문에서 양옆 큰따옴표 제거
+        // 정답 피드백의 예문 큰따옴표 제거 적용
         feedback.innerHTML = `정답입니다! 👏 아주 잘했어요. <br><span class="text-xs font-normal mt-1 block text-emerald-600">${currentQuizWord.example}</span>`; 
         
         speakWord("정답");
